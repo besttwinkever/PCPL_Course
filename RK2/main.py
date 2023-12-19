@@ -25,7 +25,7 @@ class BookChapter:
         self.chapter_id = chapter_id
 
 # Книги
-books = [
+g_books = [
     Book(1, 'Книга A', 'Автор A'),
     Book(2, 'Учебник B', 'Автор B'),
     Book(3, 'Книга C', 'Автор C'),
@@ -35,7 +35,7 @@ books = [
 ]
 
 # Главы
-chapters = [
+g_chapters = [
     Chapter(1, 'Глава A', 1, 10),
     Chapter(2, 'Глава B', 2, 40),
     Chapter(3, 'Авторская Глава C', 3, 20),
@@ -50,7 +50,7 @@ chapters = [
     Chapter(12, 'Глава L', 6, 55),
 ]
 
-book_chapters = [
+g_book_chapters = [
     BookChapter(1, 1),
     BookChapter(1, 7),
     BookChapter(2, 2),
@@ -65,30 +65,18 @@ book_chapters = [
     BookChapter(6, 12),
 ]
 
-
-def main():
-    """Основная функция"""
-
-    # Соединение данных один-ко-многим
+def get_books_by_name(name, books, chapters):
     one_to_many = [(book.name, book.author, chapter.name, chapter.pages)
                    for book in books
                    for chapter in chapters
                    if chapter.book_id == book.id]
-    
-    # Соединение данных многим-ко-многим
-    many_to_many_temp = [(book.name, book_chapter.book_id, book_chapter.chapter_id) 
-        for book_chapter in book_chapters 
-        for book in books 
-        if book.id==book_chapter.book_id]
-    
-    many_to_many = [(chapter.name, book_name) 
-        for book_name, book_id, chapter_id in many_to_many_temp
-        for chapter in chapters if chapter.id==chapter_id]
+    return list(filter(lambda i: i[0].find(name) != -1, one_to_many))
 
-    print('Задание А1')
-    print(list(filter(lambda i: i[0].find('Книга') != -1, one_to_many)))
-
-    print('Задание А2')
+def get_sorted_books(books, chapters):
+    one_to_many = [(book.name, book.author, chapter.name, chapter.pages)
+                   for book in books
+                   for chapter in chapters
+                   if chapter.book_id == book.id]
     res_12 = []
     for book in books:
         current_book_chapters = list(filter(lambda i: i[0] == book.name, one_to_many))
@@ -101,11 +89,31 @@ def main():
                 )
             )
     res_12 = sorted(res_12, key=itemgetter(1), reverse=True)
-    print(res_12)
+    return res_12
+
+def get_filtered_data(filterCharacters, books, chapters, book_chapters):
+    many_to_many_temp = [(book.name, book_chapter.book_id, book_chapter.chapter_id) 
+        for book_chapter in book_chapters 
+        for book in books 
+        if book.id==book_chapter.book_id]
+    
+    many_to_many = [(chapter.name, book_name) 
+        for book_name, book_id, chapter_id in many_to_many_temp
+        for chapter in chapters if chapter.id==chapter_id]
+    
+    return list(filter(lambda i: i[0][0] == filterCharacters, many_to_many))
+
+def main():
+    """Основная функция"""
+
+    print('Задание А1')
+    print(get_books_by_name('Книга', g_books, g_chapters))
+
+    print('Задание А2')
+    print(get_sorted_books(g_books, g_chapters))
 
     print('Задание А3')
-    res_13 = list(filter(lambda i: i[0][0] == 'А', many_to_many))
-    print(res_13)
+    print(get_filtered_data('А', g_books, g_chapters, g_book_chapters))
 
 if __name__ == '__main__':
     main()
