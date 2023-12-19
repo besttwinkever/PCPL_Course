@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Main {
 
-    private static final String token = "6288311298:AAHxMdkA6ln55zdR5hnrv8jbEXyl1phkPZM";
-    private static final long ownerId = 703416872;
+    private static final String token = "";
+    private static final long ownerId = 1;
     public static List<String> buttons = new ArrayList<>();
 
     public static void main(String[] args) {

@@ -1,0 +1,31 @@
+﻿<Window x:Class="Lab4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab4"
+        mc:Ignorable="d"
+        Title="Лабораторная работа 4" Height="346" Width="330">
+    <Grid Width="300" Margin="0, 10, 0, 0">
+        <StackPanel Orientation="Vertical">
+            <Button x:Name="LoadWordsButton" Content="Загрузить список слок" Click="LoadWordsButton_Click"></Button>
+            <StackPanel Orientation="Horizontal">
+                <Label>Время загрузки: </Label>
+                <Label x:Name="LoadTimeLabel"></Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>Время сохранения: </Label>
+                <Label x:Name="SaveTimeLabel"></Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>Время поиска:</Label>
+                <Label x:Name="SearchTimeLabel"></Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label>Поиск: </Label>
+                <TextBox Width="200" x:Name="FilterTextBox" KeyUp="FilterTextBox_KeyUp"></TextBox>
+            </StackPanel>
+            <ListBox x:Name="WordListBox" Margin="0, 10, 0, 0" Height="150"></ListBox>
+        </StackPanel>
+    </Grid>
+</Window>
