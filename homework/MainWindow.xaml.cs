@@ -39,25 +39,24 @@ namespace ServerSearcher
                     IPStats stats = IPManager.GetStats();
                     StatusLabel.Content = String.Format("{0}/{1}", stats.ipChecked, stats.totalIp);
                 });
-                for (int i = 1000; i < 10000; i++) {
-                    Thread.Sleep(100);
-                    try {
-                        Query query = new Query(ip, i);
-                        query.Send('i');
-                        String[] data = query.Store(query.Recieve());
-                        String result = String.Format("{0}:{1} ({2}, {3}/{4})\n", ip, i, data[3], data[1], data[2]);
-                        Dispatcher.Invoke(() =>
-                        {
-                            ResultBox.Text += result;
-                        });
-                        using (StreamWriter sw = File.AppendText("./result.txt")) {
-                            sw.Write(result);
-                        }
-                    }
-                    catch (Exception)
+                try
+                {
+                    Query query = new Query(ip, port);
+                    query.Send('i');
+                    String[] data = query.Store(query.Recieve());
+                    String result = String.Format("{0}:{1} ({2}, {3}/{4})\n", ip, port, data[3], data[1], data[2]);
+                    Dispatcher.Invoke(() =>
                     {
-                        continue;
+                        ResultBox.Text += result;
+                    });
+                    using (StreamWriter sw = File.AppendText("./result.txt"))
+                    {
+                        sw.Write(result);
                     }
+                }
+                catch (Exception)
+                {
+                    continue;
                 }
             }
         }
